@@ -1,25 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Coin from './Coin.js';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      face: 'heads',
+      headCount: 0,
+      tailCount: 0
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  pickHeadsOrTails() {
+    let arr = ['heads', 'tails'];
+    this.setState(st => {
+      st.face = arr[Math.floor(Math.random() * 2)];
+      if (st.face === 'heads') {
+        st.headCount++;
+      } else {
+        st.tailCount++;
+      }
+      debugger;
+      return st;
+    });
+  }
+
+  handleClick(evt) {
+    this.pickHeadsOrTails();
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        Let's flip a coin
+        <Coin face={this.state.face} />
+        Out of {this.state.headCount + this.state.tailCount} flips, there have
+        been {this.state.headCount} heads and {this.state.tailCount} tails.
+        <button onClick={this.handleClick}>Flip me</button>
       </div>
     );
   }
